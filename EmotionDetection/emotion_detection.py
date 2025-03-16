@@ -15,24 +15,33 @@ def emotion_detector(text_to_analyse):
     formatted_response = json.loads(response.text)
     
     #extracting the emotions
-    anger_score = formatted_response['emotionPredictions'][0]['emotion']['anger']
-    disgust_score = formatted_response['emotionPredictions'][0]['emotion']['disgust']
-    fear_score = formatted_response['emotionPredictions'][0]['emotion']['fear']
-    joy_score = formatted_response['emotionPredictions'][0]['emotion']['joy']
-    sadness_score = formatted_response['emotionPredictions'][0]['emotion']['sadness']
-    
-    # Store values in a dictionary
-    values_dict = {
-        'anger': anger_score,
-        'disgust': disgust_score,
-        'fear': fear_score,
-        'joy': joy_score,
-        'sadness': sadness_score
-    }
-    
-    # Get the highest value and grab its key property
-    highest_key = max(values_dict, key=values_dict.get)
+    if response.status_code == 200:
+        anger_score = formatted_response['emotionPredictions'][0]['emotion']['anger']
+        disgust_score = formatted_response['emotionPredictions'][0]['emotion']['disgust']
+        fear_score = formatted_response['emotionPredictions'][0]['emotion']['fear']
+        joy_score = formatted_response['emotionPredictions'][0]['emotion']['joy']
+        sadness_score = formatted_response['emotionPredictions'][0]['emotion']['sadness']
 
+        # Store values in a dictionary
+        values_dict = {
+            'anger': anger_score,
+            'disgust': disgust_score,
+            'fear': fear_score,
+            'joy': joy_score,
+            'sadness': sadness_score
+        }
+
+        # Get the highest value and grab its key property
+        highest_key = max(values_dict, key=values_dict.get)
+
+    elif response.status_code > 300:
+        anger_score = None
+        disgust_score = None
+        fear_score = None
+        joy_score = None
+        sadness_score = None
+        highest_key = None
+    
     return {
         'anger': anger_score,
         'disgust': disgust_score,
