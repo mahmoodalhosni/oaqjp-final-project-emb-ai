@@ -33,7 +33,7 @@ def emotion_detector(text_to_analyse):
         # Get the highest value and grab its key property
         highest_key = max(values_dict, key=values_dict.get)
 
-    elif response.status_code > 300:
+    elif response.status_code == 400 or response.status_code == 500:
         anger_score = None
         disgust_score = None
         fear_score = None
